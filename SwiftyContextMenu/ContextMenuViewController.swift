@@ -17,7 +17,6 @@ class ContextMenuViewController: UIViewController {
     private var contextMenu: ContextMenu!
     private weak var delegate: ContextMenuViewControllerDelegate?
 
-    private var blurView: UIVisualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .light))
     private var overlayView = UIView(frame: .zero)
     private var snapshotImageView = UIImageView(frame: .zero)
     private var contextMenuTableView = ContextMenuTableView()
@@ -43,7 +42,6 @@ class ContextMenuViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        addBlurView()
         addBlackOverlay()
         addSnapshotView()
         addContextMenuTableView()
@@ -58,11 +56,6 @@ class ContextMenuViewController: UIViewController {
 
     private func setupUI() {
         view.backgroundColor = .clear
-    }
-
-    private func addBlurView() {
-        blurView.alpha = 0
-        view.fill(with: blurView)
     }
 
     private func addBlackOverlay() {
@@ -90,9 +83,8 @@ class ContextMenuViewController: UIViewController {
         let stackView = UIStackView(arrangedSubviews: arrangedSubviews)
         stackView.axis = .vertical
         stackView.spacing = 0
-        blurView.contentView.fill(with: stackView)
 
-        let blurView = UIVisualEffectView(effect: UIBlurEffect(style: .extraLight))
+        let blurView: UIVisualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .extraLight))
         blurView.layer.cornerRadius = 14
         blurView.clipsToBounds = true
         blurView.contentView.fill(with: stackView)
@@ -171,7 +163,6 @@ class ContextMenuViewController: UIViewController {
             withDuration: 0.2,
             animations: {
                 self.overlayView.alpha = 1
-                self.blurView.alpha = 1
                 self.snapshotImageView.transform = self.contextMenu.sourceViewFirstStepTransform
             },
             completion: { _ in
@@ -208,7 +199,6 @@ class ContextMenuViewController: UIViewController {
         UIView.animate(
             withDuration: 0.2,
             animations: {
-                self.blurView.alpha = 0
                 self.contextMenuView.alpha = 0
                 self.snapshotImageView.transform = .identity
                 self.contextMenuView.transform = self.contextMenu.optionsViewFirstTransform
