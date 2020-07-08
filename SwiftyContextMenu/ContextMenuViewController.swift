@@ -153,33 +153,16 @@ class ContextMenuViewController: UIViewController {
 
     private func fadeIn() {
         contextMenuView.transform = contextMenu.optionsViewFirstTransform
-        showSourceView {
-            self.showContextMenu()
-        }
-    }
-
-    private func showSourceView(completion: @escaping () -> Void) {
-        UIView.animate(
-            withDuration: 0.2,
-            animations: {
-                self.overlayView.alpha = 1
-                self.snapshotImageView.transform = self.contextMenu.sourceViewFirstStepTransform
-            },
-            completion: { _ in
-                UIView.animate(
-                    withDuration: 0.2,
-                    animations: {
-                        self.snapshotImageView.transform = self.contextMenu.sourceViewSecondTransform
-                    },
-                    completion: { _ in completion() })
-                })
+        showContextMenu()
     }
 
     private func showContextMenu() {
         UIView.animate(
             withDuration: 0.2,
             animations: {
+                self.overlayView.alpha = 1
                 self.contextMenuView.alpha = 1
+                self.snapshotImageView.transform = self.contextMenu.sourceViewSecondTransform
                 self.contextMenuView.transform = self.contextMenu.optionsViewSecondTransform
 
                 let trasform = self.contextMenu.sourceViewThirdTransform(isContextMenuUp: self.isContextMenuUp,
