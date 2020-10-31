@@ -152,8 +152,30 @@ class ContextMenuViewController: UIViewController {
     }
 
     private func fadeIn() {
+        contextMenu.delegate?.contextMenuWillAppear(contextMenu)
         contextMenuView.transform = contextMenu.optionsViewFirstTransform
-        showContextMenu()
+        showSourceView {
+            self.contextMenu.delegate?.contextMenuDidAppear(self.contextMenu)
+            self.showContextMenu()
+        }
+    }
+
+    private func showSourceView(completion: @escaping () -> Void) {
+        UIView.animate(
+            withDuration: 0.2,
+            animations: {
+                self.overlayView.alpha = 1
+                self.blurView.alpha = 1
+                self.snapshotImageView.transform = self.contextMenu.sourceViewFirstStepTransform
+            },
+            completion: { _ in
+                UIView.animate(
+                    withDuration: 0.2,
+                    animations: {
+                        self.snapshotImageView.transform = self.contextMenu.sourceViewSecondTransform
+                    },
+                    completion: { _ in completion() })
+                })
     }
 
     private func showContextMenu() {
