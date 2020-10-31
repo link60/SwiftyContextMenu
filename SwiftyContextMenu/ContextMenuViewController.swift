@@ -165,7 +165,6 @@ class ContextMenuViewController: UIViewController {
             withDuration: 0.2,
             animations: {
                 self.overlayView.alpha = 1
-                self.blurView.alpha = 1
                 self.snapshotImageView.transform = self.contextMenu.sourceViewFirstStepTransform
             },
             completion: { _ in
